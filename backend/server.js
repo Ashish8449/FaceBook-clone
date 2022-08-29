@@ -1,10 +1,12 @@
 const express = require('express')
+const mongoose = require('mongoose')
 const cors = require('cors')
 const dotenv = require('dotenv')
 dotenv.config()
 const userRouter = require('./routes/user')
 
 const { readdirSync } = require('fs')
+const globalErrorHandler = require('./controllers/error')
 const app = express()
 // only req form these routes are allowed
 let allowed = ['http://localhost:3000', 'something']
@@ -25,14 +27,26 @@ function options(req, res) {
   }
   res(null, tem)
 }
+
+app.use(express.json())
 app.use(cors(options))
 
+// routes
 readdirSync('./routes').map((r) => app.use('/', require('./routes/' + r)))
-console.log(readdirSync('./routes'))
 
-app.get('/', (req, res) => {
-  res.send('welcome from home')
+
+// dataBase req
+
+mongoose
+  .connect(process.env.DATABASE_URL, {
+    useNewUrlParser: true,
+  })
+  .then(() => console.log('DB connected sucesfully'))
+  .catch((err) => console.log('Error to connect with db'))
+
+const PORT = process.env.PORT || 5000
+app.listen(PORT, () => {
+  console.log('server is listing ...')
 })
-app.listen(5000, () => {
-  console.log('server is lesting ...')
-})
+
+app.use(globalErrorHandler)
