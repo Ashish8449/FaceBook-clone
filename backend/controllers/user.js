@@ -6,6 +6,7 @@ const {
 } = require('../Utils/validation')
 
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 const { genrateToken } = require('../Utils/tokens')
 const { sendVerificationEmail } = require('../Utils/mailer')
 exports.register = async (req, res) => {
@@ -89,7 +90,60 @@ exports.register = async (req, res) => {
   }
 }
 
-exports.activateAccount = (req, res) => {
+exports.activateAccount = async (req, res) => {
+  try {
+    const { token } = req.body
+    const user = jwt.verify(token, process.env.TOKEN_SECRET_KEY)
+    const check = await User.findById(user.id)
 
+    // you have also check token is not expired (comming soon )
 
+    if (check.verified) {
+      res.status(400).json({ message: 'This Email is already verified' })
+    } else {
+      await User.findByIdAndUpdate(user.id, {
+        verified: true,
+      })
+      return res
+        .status(200)
+        .json({ message: 'Account has been activated successfully' })
+    }
+  } catch (error) {}
+}
+
+exports.logIn = async (req, res) => {
+  try {
+    const { email, password } = req.body
+    const user = await User.findOne({ email })
+
+    if (!user) {
+      res
+        .status(400)
+        .json({ message: 'This email address is not connected to an account' })
+    }
+
+    const check = await bcrypt.compare(password, user.password)
+    if (!check) {
+      return res
+        .status(400)
+        .json({ message: 'Invalid credentials . Please try again later' })
+    }
+
+    const token = genrateToken({ id: user._id.toString() }, '7d')
+
+    res
+      .json({
+        id: user._id,
+        username: user.username,
+        picture: user.picture,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        token,
+        verified: user.verified,
+        message: 'Registraion Success | Please acitvate your email ',
+      })
+      .status(201)
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
 }

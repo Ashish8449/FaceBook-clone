@@ -1,10 +1,13 @@
-function App() {
-  const get = async function () {
-    const res = await fetch('http://localhost:5000', { mode: 'cors' })
-    console.log(res)
-  }
-  get()
-  return <div>welcome to frontend</div>
-}
+import React from 'react'
+import { Route, Routes } from 'react-router-dom'
+import Login from './Pages/Login'
 
-export default App
+export default function App() {
+  return (
+    <div className=''>
+      <Routes>
+        <Route exact path='/login' element={<Login />} />
+      </Routes>
+    </div>
+  )
+}

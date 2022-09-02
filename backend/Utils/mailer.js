@@ -22,6 +22,7 @@ exports.sendVerificationEmail = (email, name, url) => {
       accessToken,
     },
   })
+  console.log(url)
   const mailOptions = {
     from: EMAIL,
     to: email,
