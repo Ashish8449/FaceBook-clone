@@ -15,10 +15,13 @@ import {
 } from '../../svg'
 import AllMenu from './AllMenu'
 import SearchMenu from './SearchMenu'
+import UserMenu from './UserMenu'
 export default function Header() {
   const color = '#65676b'
   const { user } = useSelector((state) => state)
   const [isMenuVisibel, setMenuVisibel] = useState(false)
+  const [isAllMenuVisibel, setAllMenuVisibel] = useState(false)
+  const [isUserMenuVisibel, setUserMenuVisibel] = useState(false)
   console.log(user)
   return (
     <header className='fixed h-[56px] bg-bg-primary z-50 w-full top-0 shadow-2xl shadow-shadow-2 grid grid-cols-3 text-primary'>
@@ -76,31 +79,47 @@ export default function Header() {
       </div>
       <div className='flex ml-auto items-center h-full'>
         {/* <Link to='/profile'><> */}
+        <img
+          src={user.picture}
+          className='w-8 h-8 object-cover rounded-full'
+          alt=''
+        />
         <Link to='/profile' className='flex align-middle'>
-          <img
-            src={user?.picture}
-            className='w-8 h-8 object-cover rounded-full'
-            alt=''
-          />
           <span className='font-medium mx-2'>{user.first_name}</span>
         </Link>
-        <div className='hover1 rounded-full mx-3 p-3'>
+        <div
+          className='hover1 rounded-full mx-3 p-3'
+          onClick={() => setAllMenuVisibel(!isAllMenuVisibel)}
+        >
           <Menu />
         </div>{' '}
-        <div className='hover1 rounded-full  p-2'>
+        <div className='hover1 rounded-full mx-2   p-2'>
           <Messenger />
         </div>{' '}
-        <div className='hover1 rounded-full  p-2 relative'>
+        <div className='hover1 rounded-full mx-2  p-2 relative'>
           <Notifications />
           <div className='absolute top-0 -right-2 text-[13px] text-bg-primary font-medium rounded-full  text-center px-[4px] bg-[#e41e3f] '>
             9+
           </div>
         </div>{' '}
-        <div className='hover1 rounded-full  p-2'>
-          <ArrowDown />
+        <div className=''>
+          <div
+            className='hover1 rounded-full mx-2 relative  p-2'
+            onClick={() => {
+              console.log(isUserMenuVisibel)
+              setUserMenuVisibel(!isUserMenuVisibel)
+            }}
+          >
+            <ArrowDown />
+          </div>
+          {isUserMenuVisibel && (
+            <UserMenu user={user} setUserMenu={setUserMenuVisibel} />
+          )}
         </div>
       </div>
-      <AllMenu color={color} />
+      {isAllMenuVisibel && (
+        <AllMenu color={color} setMenuVisibel={setAllMenuVisibel} />
+      )}
     </header>
   )
 }

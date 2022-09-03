@@ -1,13 +1,19 @@
-import React from 'react'
-import { menu } from '../../data/allMenu'
+import React, { useRef } from 'react'
+import { create, menu } from '../../data/allMenu'
+import { useClickOutSide } from '../../Helper/clickOutSide'
 import { Search } from '../../svg'
 import AllMenuItem from './AllMenuItems'
 
-export default function AllMenu({ color }) {
+export default function AllMenu({ color, setMenuVisibel }) {
+  const menuRef = useRef(null)
+  useClickOutSide(menuRef, () => setMenuVisibel(false))
   return (
-    <div className='absolute md:w-[45%] max-h-[90vh] right-0 z-10 bg-bg-primary top-[56px] shadow-lg rounded-md  py-3 '>
+    <div
+      ref={menuRef}
+      className='absolute md:w-[50%] max-h-[90vh] right-0 z-10 bg-bg-primary top-[56px] shadow-lg rounded-md  py-3 '
+    >
       <div className='my-2 font-semibold text-2xl px-8'>Menu </div>
-      <div className='grid grid-cols-3 gap-6 overflow-y-scroll h-[80vh]'>
+      <div className='grid grid-cols-3  overflow-y-scroll scrollbar h-[80vh]'>
         <div className='col-span-2 shadow-xl px-8  '>
           <div className='flex items-center bg-bg-forth  rounded-3xl px-2 pr-3 h-10'>
             <Search color={color} className='' />
@@ -27,6 +33,22 @@ export default function AllMenu({ color }) {
                 icon={item.icon}
                 key={i}
               />
+            ))}
+          </div>
+        </div>
+        <div className='pl-3 '>
+          <div className='shadow-xl rounded-2xl fixed px-2 '>
+            <div className='text-xl font-medium my-3'>Create</div>
+            {create.map((item, i) => (
+              <div
+                className='flex align-middle items-center py-2 h-12 hover1'
+                key={i}
+              >
+                <div className='all_right_circle w-8 flex items-center bg-bg-secondary justify-center h-8 mr-4 rounded-full'>
+                  <i className={item.icon}></i>
+                </div>
+                <div className='font-medium text-lg'>{item.name}</div>
+              </div>
             ))}
           </div>
         </div>
