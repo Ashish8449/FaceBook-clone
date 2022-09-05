@@ -6,6 +6,11 @@ import DateOfBirthSelector from '../DateOfBirthSelector'
 import GenderSelector from '../GenderSelector'
 import ClipLoader from 'react-spinners/ClipLoader'
 import axios from 'axios'
+import { BACKEND_URL } from '../../constants'
+import Cookies from 'js-cookie'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { login } from '../../Reducers/userReducer'
 const userInfos = {
   first_name: '',
   last_name: '',
@@ -22,10 +27,11 @@ export default function RegisterForm() {
   const [dateError, setDateError] = useState('')
   const [genderError, setGenderError] = useState('')
 
-  const [error, setError] = useState('error')
-  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState('')
-
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
   const {
     first_name,
     last_name,
@@ -64,25 +70,32 @@ export default function RegisterForm() {
     setUser({ ...user, [name]: value })
   }
   const handelRegisterSubmit = async () => {
-    console.log(process.env)
+    setLoading('')
+    setError('')
+    setSuccess('')
     try {
-      const { data } = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/register`,
-        {
-          first_name,
-          last_name,
-          email,
-          password,
-          bYear,
-          bMonth,
-          bDay,
-          gender,
-        }
-      )
+      const { data } = await axios.post(`${BACKEND_URL}/register`, {
+        first_name,
+        last_name,
+        email,
+        password,
+        bYear,
+        bMonth,
+        bDay,
+        gender,
+      })
+      console.log(data)
 
       setError('')
       setSuccess(data.message)
+      const { message, ...rest } = data
+      setTimeout(() => {
+        dispatch(login(rest))
+        Cookies.set('user', JSON.stringify(rest))
+        navigate('/')
+      }, 2000)
     } catch (error) {
+      console.log(error)
       setLoading(false)
       setError(error.response.data.message)
     }
@@ -191,16 +204,16 @@ export default function RegisterForm() {
             </div>
             <div className='flex justify-center'>
               <button className='my-3 font-semibold text-lg bg-green-color w-64 h-10 rounded-md text-[#fff]'>
-                Sing UP ClipL
+                <ClipLoader
+                  color={'1876f2'}
+                  loading={loading}
+                  css={true}
+                  className='text-center'
+                  size={15}
+                />{' '}
+                Sing UP
               </button>
             </div>
-            <ClipLoader
-              color={'1876f2'}
-              loading={loading}
-              css={true}
-              className='text-center'
-              size={15}
-            />
             {success && (
               <div className='text-green-color text-center'>{success}</div>
             )}

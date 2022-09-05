@@ -34,7 +34,6 @@ app.use(cors(options))
 // routes
 readdirSync('./routes').map((r) => app.use('/', require('./routes/' + r)))
 
-
 // dataBase req
 
 mongoose

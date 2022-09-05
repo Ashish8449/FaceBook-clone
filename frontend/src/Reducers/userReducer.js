@@ -1,28 +1,22 @@
 import { createSlice } from '@reduxjs/toolkit'
+import Cookies from 'js-cookie'
+const initialState = Cookies.get('user')
+  ? JSON.parse(Cookies.get('user'))
+  : null
 
-const initialState = null
-
+console.log(initialState)
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    increment: (state) => {
-      // Redux Toolkit allows us to write "mutating" logic in reducers. It
-      // doesn't actually mutate the state because it uses the Immer library,
-      // which detects changes to a "draft state" and produces a brand new
-      // immutable state based off those changes
-      state.value += 1
-    },
-    decrement: (state) => {
-      state.value -= 1
-    },
-    incrementByAmount: (state, action) => {
-      state.value += action.payload
+    login: (state, action) => {
+      console.log(action.payload)
+      state = action.payload
     },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { increment, decrement, incrementByAmount } = userSlice.actions
+export const { login } = userSlice.actions
 
 export const userReducer = userSlice.reducer
