@@ -8,7 +8,7 @@ import Cookies from 'js-cookie'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import ClipLoader from 'react-spinners/ClipLoader'
-import { login as loginReducer } from '../../Reducers/userReducer'
+import { userActions } from '../../Reducers/userReducer'
 const loginInfos = {
   email: '',
   password: '',
@@ -32,14 +32,18 @@ export default function LoginForm() {
     setLoading(false)
     setError('')
     try {
+      setLoading(true)
       const { data } = await axios.post(`${BACKEND_URL}/login`, {
         email,
         password,
       })
       console.log(data)
-      dispatch(loginReducer(data))
+      dispatch(userActions.login(data))
       Cookies.set('user', JSON.stringify(data))
-      navigate('/')
+      setTimeout(() => {
+        navigate('/')
+        setLoading(false)
+      }, 2000)
     } catch (error) {
       setLoading(false)
       console.log(error)

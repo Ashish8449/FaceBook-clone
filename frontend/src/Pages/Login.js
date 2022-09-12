@@ -7,7 +7,7 @@ import SimpleModal from '../components/Modal/SimpleModal'
 
 export default function Login() {
   const [isCreate, setCreate] = useState(false)
-  console.log(isCreate)
+
   return (
     <div className='max-w-[1440px] m-auto relative'>
       <div className='flex   min-h-[78vh] items-center justify-center bg-bg-third px-3'>

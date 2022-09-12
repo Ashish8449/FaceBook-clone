@@ -10,10 +10,10 @@ export default function AllMenu({ color, setMenuVisibel }) {
   return (
     <div
       ref={menuRef}
-      className='absolute md:w-[50%] max-h-[90vh] right-0 z-10 bg-bg-primary top-[56px] shadow-lg rounded-md  py-3 '
+      className='absolute lg:w-[50%]   max-h-[90vh] right-0 z-10 bg-bg-primary top-[56px] shadow-lg rounded-md  py-3 '
     >
       <div className='my-2 font-semibold text-2xl px-8'>Menu </div>
-      <div className='grid grid-cols-3  overflow-y-scroll scrollbar h-[80vh]'>
+      <div className='sm:grid flex-wrap sm:grid-cols-3 grid-cols-1   overflow-y-scroll scrollbar h-[80vh]'>
         <div className='col-span-2 shadow-xl px-8  '>
           <div className='flex items-center bg-bg-forth  rounded-3xl px-2 pr-3 h-10'>
             <Search color={color} className='' />
@@ -24,7 +24,7 @@ export default function AllMenu({ color, setMenuVisibel }) {
               style={{ background: 'transparent' }}
             />
           </div>
-          <div className='border-b-2 border-bg-third my-4 '>
+          <div className='border-b-2 border-bg-third my-4  relative'>
             <div className='font-semibold text-xl my-3 '>Social</div>
             {menu.map((item, i) => (
               <AllMenuItem

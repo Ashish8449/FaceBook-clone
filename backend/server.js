@@ -19,7 +19,6 @@ function options(req, res) {
       origin: true,
       optionSuccessStatus: 200,
     }
-    console.log('cke')
   } else {
     tem = {
       origin: false,
