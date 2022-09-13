@@ -8,6 +8,7 @@ const userRouter = require('./routes/user')
 const { readdirSync } = require('fs')
 const globalErrorHandler = require('./controllers/error')
 const app = express()
+const morgan = require('morgan')
 // only req form these routes are allowed
 let allowed = ['http://localhost:3000', 'something']
 
@@ -29,6 +30,7 @@ function options(req, res) {
 
 app.use(express.json())
 app.use(cors(options))
+app.use(morgan('dev'))
 
 // routes
 readdirSync('./routes').map((r) => app.use('/', require('./routes/' + r)))

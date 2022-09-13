@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import SnackBar from '../components/Comman/SnackBar'
 import CreatePost from '../components/CreatePost/CreatePost'
 import Header from '../components/Header/Header'
@@ -12,13 +12,15 @@ import { BACKEND_URL } from '../constants'
 import Cookies from 'js-cookie'
 import { useDispatch } from 'react-redux'
 import { userActions } from '../Reducers/userReducer'
+import ActivationPopUp from '../components/Home/ActivationPopUp'
 export default function Activate() {
-  const { user } = useSelector((state) => state)
+  const { user } = useSelector((state) => state.user)
   const { token } = useParams()
-
-  const [success, setSuccess] = useState('') //Account Verification Sucessfully
+  console.log(token)
+  const [success, setSuccess] = useState('f') //Account Verification Sucessfully
   const [error, setError] = useState('') //Account Verification Failed
   const [loading, setLoading] = useState('')
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   useEffect(() => {
     activate()
@@ -35,28 +37,47 @@ export default function Activate() {
           },
         }
       )
-      console.log(data)
       setSuccess(data.message)
+
       Cookies.set('user', JSON.stringify({ ...user, verified: true }))
       dispatch(userActions.login({ ...user, verified: true }))
+      setTimeout(() => {
+        setLoading(false)
+        navigate('/')
+      }, 3000)
     } catch (error) {
-      setError(error.message)
+    
+      setError(error.response.data.message)
     }
   }
 
   return (
     <div className='mt-[56px]'>
-      <Header />
-      {success && <SnackBar text={success} onClose={() => setSuccess('')} />}
-      {error && (
-        <SnackBar text={error} isSucess={true} onClose={() => setError('')} />
+      {success && (
+        <ActivationPopUp
+          type={'success'}
+          loading={loading}
+          text={success}
+          header='Account Verification succeded'
+        />
       )}
-      <div className='flex'>
+      {error && (
+        <ActivationPopUp
+          loading={loading}
+          text={error}
+          header='Account Verification failed'
+        />
+      )}
+
+      <Header />
+      <div className='flex bg-bg-forth min-h-screen'>
         <HomeLeftMenu user={user} />
-        {/* middel div */}
-        <div className='ml-[30vw] flex-1 mr-[370px] '>
-          <Stories />
-          <CreatePost user={user} />
+
+        <div className=' flex-1 flex lg:justify-center md:px-4 px-3 '>
+          <div className='md:max-w-[650px] w-full '>
+            <Stories />
+            <CreatePost user={user} />
+          </div>
         </div>
         <Right user={user} />
       </div>

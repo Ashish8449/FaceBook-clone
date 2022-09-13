@@ -16,7 +16,7 @@ export default function App() {
         <Route exact path='/login' element={<Login />} />
         <Route element={<ProtectedRoutes />}>
           <Route exact path='/' element={<Home />} />
-          <Route exact path='/acitvate/:token' element={<Activate />} />
+          <Route exact path='activate/:token' element={<Activate />} />
         </Route>
         <Route element={<NotLogInRoutes />}>
           <Route exact path='/login' element={<Login />} />

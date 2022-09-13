@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 exports.authUser = (req, res, next) => {
   try {
     let tem = req.header('Authorization')
+    console.log(tem)
     const token = tem && tem.split(' ')[1]
 
     if (!token) {
