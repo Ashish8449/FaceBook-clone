@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function MainMenu({ user, setVisibel }) {
+export default function MainMenu({ user, setVisibel, logOut }) {
   return (
     <div className='mt-5'>
       <div className='flex items-center gap-5 px-5'>
@@ -49,7 +49,9 @@ export default function MainMenu({ user, setVisibel }) {
         <div className='small_circle'>
           <i className='logout_filled_icon'></i>
         </div>
-        <div className='flex-1 font-medium'>Log Out</div>
+        <div className='flex-1 font-medium' onClick={logOut}>
+          Log Out
+        </div>
       </div>
     </div>
   )

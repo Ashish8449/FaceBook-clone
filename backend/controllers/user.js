@@ -82,6 +82,7 @@ exports.register = async (req, res) => {
         first_name: user.first_name,
         last_name: user.last_name,
         token,
+        email: user.email,
         verified: user.verified,
         message: 'Registraion Success | Please acitvate your email ',
       })
@@ -134,7 +135,7 @@ exports.sendVerificationEmail = async (req, res) => {
     const verifacatioToken = genrateToken({ id: user._id.toString() }, '1d')
     // console.log(verifacatioToken)
     const url = `${process.env.BASE_URL}/acitvate/${verifacatioToken}`
-   
+
     sendVerificationEmail(user.email, user.first_name, url)
 
     return res
@@ -170,6 +171,7 @@ exports.logIn = async (req, res) => {
         first_name: user.first_name,
         last_name: user.last_name,
         token,
+        email: user.email,
         verified: user.verified,
         message: 'Registraion Success | Please acitvate your email ',
       })

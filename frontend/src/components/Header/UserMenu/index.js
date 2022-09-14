@@ -28,7 +28,9 @@ export default function UserMenu({ user, setUserMenu }) {
       ref={menuRef}
       className='absolute w-[350px]  py-4 mt-4 rounded-md bg-bg-primary right-0 top-10 shadow-xl '
     >
-      {visibel === 0 && <MainMenu user={user} setVisibel={setVisibel} />}
+      {visibel === 0 && (
+        <MainMenu user={user} setVisibel={setVisibel} logOut={logOut} />
+      )}
       {visibel === 1 && <SettingsPrivacy user={user} setVisibel={setVisibel} />}
       {visibel === 2 && <HelpSupport user={user} setVisibel={setVisibel} />}
       {visibel === 3 && (
