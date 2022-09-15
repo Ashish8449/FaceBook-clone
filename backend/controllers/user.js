@@ -8,7 +8,9 @@ const {
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const { genrateToken } = require('../Utils/tokens')
-const { sendVerificationEmail } = require('../Utils/mailer')
+const { sendVerificationEmail, sendResetCode } = require('../Utils/mailer')
+const { Code } = require('../models/Code')
+const { genrateCode } = require('../Utils/generateCode')
 exports.register = async (req, res) => {
   try {
     const {
@@ -175,7 +177,71 @@ exports.logIn = async (req, res) => {
         verified: user.verified,
         message: 'Registraion Success | Please acitvate your email ',
       })
-      .status(201)
+      .status(200)
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+}
+exports.findUser = async (req, res) => {
+  try {
+    const { email } = req.body
+    const user = await User.findOne({ email: email })
+
+    if (!user)
+      return res
+        .status(400)
+        .json({ message: 'Account with this email not exist' })
+    return res.status(200).json({
+      email: user.email,
+      picture: user.picture,
+    })
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+}
+
+exports.sendResetPasswordCode = async (req, res) => {
+  try {
+    const { email } = req.body
+    const user = await User.findOne({ email: email })
+
+    await Code.findOneAndRemove({ user: user._id })
+    const code = genrateCode(5)
+
+    const saveCode = await new Code({
+      code,
+      user: user._id,
+    }).save()
+    sendResetCode(user.email, user.first_name, code)
+    return res
+      .status(200)
+      .json({ message: 'Email Reset Code has been set to your email' })
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+}
+
+exports.validateResetCode = async (req, res) => {
+  try {
+    const { email, code } = req.body
+    const user = await User.findOne({ email })
+
+    const dbCode = await Code.findOne({ user: user._id })
+    if (code !== dbCode.code) {
+      return res.status(400).json({ message: 'Verification Code is Wrong' })
+    }
+    return res.status(200).json({ message: 'ok' })
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+}
+
+exports.changePassword = async (req, res) => {
+  try {
+    const { email, password } = req.body
+    const cryptedPassword = await bcrypt.hash(password, 12)
+    await User.findOneAndUpdate({ email }, { password: cryptedPassword })
+    return res.json({ message: 'Your Password has been successfully changed' })
   } catch (error) {
     res.status(500).json({ message: error.message })
   }

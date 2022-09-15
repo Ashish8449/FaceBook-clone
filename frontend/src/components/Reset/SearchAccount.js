@@ -4,8 +4,11 @@ import { Form, Formik } from 'formik'
 import LoginInput from '../Input/LoginInput'
 import * as Yup from 'yup'
 import { Link } from 'react-router-dom'
-export default function SearchAccount() {
+import axios from 'axios'
+import { BACKEND_URL } from '../../constants'
+export default function SearchAccount({ setVisibel, setUserInfos, ...props }) {
   const [email, setEmail] = useState('')
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const validateEmail = Yup.object({
     email: Yup.string()
@@ -13,6 +16,19 @@ export default function SearchAccount() {
       .email('Must be a valid email address.')
       .max(50, "Email address can't be more than 50 characters."),
   })
+  const handelSearch = async () => {
+    try {
+      setLoading(true)
+
+      const { data } = await axios.post(`${BACKEND_URL}/findUser`, { email })
+      console.log(data)
+      setUserInfos(data)
+      setVisibel((cur) => cur + 1)
+    } catch (error) {
+      setLoading(false)
+      setError(error.response.data.message)
+    }
+  }
   return (
     <div className='bg-bg-primary max-w-[350px] md:w-96  rounded-lg relative'>
       <div className='font-medium px-4 py-4'>Find Your Account</div>
@@ -27,6 +43,7 @@ export default function SearchAccount() {
             enableReinitialize
             validationSchema={validateEmail}
             initialValues={{ email }}
+            onSubmit={handelSearch}
           >
             {(formik) => (
               <Form>
@@ -35,8 +52,11 @@ export default function SearchAccount() {
                   type='text'
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder='Email address or phone number'
+                  o
                 />
-                {error && <div>{error}</div>}
+                {error && (
+                  <div className='text-center text-error my-2'>{error}</div>
+                )}
                 <div className='flex align-middle items-center gap-6'>
                   <Link
                     className='ml-auto bg-bg-secondary px-6 py-2 rounded-md text-secondary'

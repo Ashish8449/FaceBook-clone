@@ -13,9 +13,10 @@ export default function Reset({ user }) {
   console.log(user)
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const [visibel, setVisibel] = useState(3)
+  const [visibel, setVisibel] = useState(0)
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [userInfos, setUserInfos] = useState()
   const logOut = () => {
     dispatch(userActions.logOut())
     navigate('/login')
@@ -57,12 +58,26 @@ export default function Reset({ user }) {
         )}
       </div>
       <div className='flex justify-center items-center h-[90vh] '>
-        {visibel === 0 && <SearchAccount />}
-        {visibel === 1 && <SendEmail user={user} />}
-        {visibel === 2 && <CodeVerification user={user} />}
+        {visibel === 0 && (
+          <SearchAccount setUserInfos={setUserInfos} setVisibel={setVisibel} />
+        )}
+        {visibel === 1 && userInfos && (
+          <SendEmail
+            userInfos={userInfos}
+            setUserInfos={setUserInfos}
+            setVisibel={setVisibel}
+          />
+        )}
+        {visibel === 2 && (
+          <CodeVerification
+            userInfos={userInfos}
+            setUserInfos={setUserInfos}
+            setVisibel={setVisibel}
+          />
+        )}
         {visibel === 3 && (
           <ChangePassword
-            user={user}
+            userInfos={userInfos}
             password={password}
             confirmPassword={confirmPassword}
             setPassword={setPassword}
