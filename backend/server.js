@@ -2,6 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
 const dotenv = require('dotenv')
+const fileUpload = require('express-fileupload')
 dotenv.config()
 const userRouter = require('./routes/user')
 
@@ -30,6 +31,11 @@ function options(req, res) {
 
 app.use(express.json())
 app.use(cors(options))
+app.use(
+  fileUpload({
+    useTempFiles: true,
+  })
+)
 app.use(morgan('dev'))
 
 // routes
