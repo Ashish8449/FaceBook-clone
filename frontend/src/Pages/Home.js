@@ -20,11 +20,11 @@ export default function Home() {
           <div className='md:max-w-[650px] w-full '>
             <Stories />
             {!user.verified && <SendVerification user={user} />}
-            <CreatePost user={user} />
           </div>
         </div>
         <Right user={user} />
       </div>
+      <CreatePost user={user} />
     </div>
   )
 }
