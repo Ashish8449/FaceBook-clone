@@ -217,7 +217,7 @@ a {
   height: 100%;
   cursor: default;
   /* overflow: hidden; */
-  overflow-y: scroll
+  overflow-y: scroll;
 }
 .preview_actions {
   position: absolute;
@@ -340,4 +340,17 @@ a {
   display: grid;
   place-items: center;
   cursor: pointer;
+}
+
+.bgHandler {
+  height: 250px;
+  width: 100%;
+  background-size: cover;
+}
+.bgHandler textarea {
+  text-align: center;
+  height: 360px;
+  margin-top: 10px;
+  background: none;
+  color: #000;
 }
