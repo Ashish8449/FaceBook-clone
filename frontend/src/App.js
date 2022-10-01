@@ -14,7 +14,12 @@ export default function App() {
   const [visibelCreatePost, setVisibelCreatePost] = useState(false)
   return (
     <div className=''>
-      {user && visibelCreatePost && <CreatePostPopUp user={user} setVisibelCreatePost={setVisibelCreatePost} />}
+      {user && visibelCreatePost && (
+        <CreatePostPopUp
+          user={user}
+          setVisibelCreatePost={setVisibelCreatePost}
+        />
+      )}
       <Routes>
         <Route exact path='/login' element={<Login />} />
 

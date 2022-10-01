@@ -354,3 +354,7 @@ a {
   background: none;
   color: #000;
 }
+
+.carousel-status {
+  display: none !important;
+}

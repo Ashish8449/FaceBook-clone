@@ -1,9 +1,10 @@
 const express = require('express')
-const { createPost } = require('../controllers/post')
+const { createPost, getAllPosts } = require('../controllers/post')
 
 const { authUser } = require('../middlwares/auth')
 const router = express.Router()
 
-router.post('/createPost', createPost)
+router.post('/createPost', authUser, createPost)
+router.get('/getAllPost',authUser, getAllPosts)
 
 module.exports = router

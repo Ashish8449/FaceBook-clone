@@ -11,7 +11,10 @@ const globalErrorHandler = require('./controllers/error')
 const app = express()
 const morgan = require('morgan')
 // only req form these routes are allowed
-let allowed = ['http://localhost:3000', 'something']
+let allowed = [
+  'http://localhost:3000',
+  'https://face-book-clonefrontend.vercel.app',
+]
 
 function options(req, res) {
   let tem

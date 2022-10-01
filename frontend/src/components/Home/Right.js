@@ -5,7 +5,7 @@ export default function Right({ user }) {
   const color = '#65676b'
   return (
     user && (
-      <div className=' w-64 right-10 mt-3 ml-3 rounded-md hidden lg:block '>
+      <div className=' w-64   mt-3 ml-3 rounded-md hidden lg:block '>
         <div className='pb-3 border-b border-secondary text-secondary'>
           Sponsored
         </div>

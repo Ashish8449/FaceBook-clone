@@ -6,7 +6,7 @@ import LeftLInk from './LeftLInk'
 export default function HomeLeftMenu({ user }) {
   const [seeMore, setSeeMore] = useState(false)
   return (
-    <div className=' w-20 xl:bg-bg-secondary bg-bg-primary  border-r-2 border-bg-primary lg:border-r-0   xl:w-80  sm:block hidden  rounded-md overflow-y-scroll h-[95%] py-2 pb-10 scrollbar text-primary '>
+    <div className=' w-20   xl:bg-bg-secondary bg-bg-primary  border-r-2 border-bg-primary lg:border-r-0   xl:w-80  sm:block hidden  rounded-md overflow-y-scroll h-[95%] py-2 pb-10 scrollbar text-primary '>
       <div className='flex items-center  lg:px-4 '>
         <img
           className='lg:w-10 w-12 ml-2 h-12 lg:h-10  mr-3 bg-bg-third rounded-full'
