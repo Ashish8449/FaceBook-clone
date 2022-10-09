@@ -4,9 +4,12 @@ import { Dots, Public } from '../../svg'
 import 'react-responsive-carousel/lib/styles/carousel.min.css' // requires a loader
 import { Carousel } from 'react-responsive-carousel'
 import ReactPopUp from './ReactPopUp'
+import Comments from './Comments'
+import { useSelector } from 'react-redux'
 export default function Post({ post }) {
   const { user, images } = post
   const [visibel, setVisibel] = useState(false)
+  const userLogIn = useSelector((state) => state.user.user)
   return (
     <div className='bg-bg-primary shadow-md rounded-lg pt-3  '>
       {/* header  */}
@@ -64,41 +67,46 @@ export default function Post({ post }) {
         </div>
       )}
       {/* post infos */}
-      <div className='relative'>
-        <div className='shadow-xl'>
-          <div className='flex py-1'>
-            <div className='flex-1'></div>
-            <div className='grid gap-3 text-center text-secondary grid-cols-2'>
-              <div className='hover:cursor-pointer hover:underline'>
-                10 comments
+      <div className=' rounded-lg  '>
+        <div className='relative'>
+          <div className=''>
+            <div className='flex py-1'>
+              <div className='flex-1'></div>
+              <div className='grid gap-3 text-center text-secondary grid-cols-2'>
+                <div className='hover:cursor-pointer hover:underline'>
+                  10 comments
+                </div>
+                <div className='hover:cursor-pointer hover:underline'>
+                  1 share
+                </div>
               </div>
-              <div className='hover:cursor-pointer hover:underline'>
-                1 share
+            </div>
+            <div className='border-b border-bg-secondary'></div>
+            <div className='grid grid-cols-3'>
+              <div
+                className='w-full py-3 flex gap-2 cursor-pointer align-middle items-center justify-center hover1'
+                onClick={() => setVisibel(true)}
+              >
+                <i className='like_icon '></i>
+                <span className='text-secondary font-medium'>Like</span>
+              </div>{' '}
+              <div className='w-full py-3 flex gap-2 cursor-pointer align-middle items-center justify-center hover1'>
+                <i className='comment_icon '></i>
+                <span className='text-secondary font-medium'>Comment</span>
+              </div>{' '}
+              <div className='w-full py-3 flex gap-2 cursor-pointer align-middle items-center justify-center hover1'>
+                <i className='share_icon '></i>
+                <span className='text-secondary font-medium'>Share</span>
               </div>
             </div>
           </div>
-          <div className='border-b border-bg-secondary'></div>
-          <div className='grid grid-cols-3'>
-            <div className='w-full py-3 flex gap-2 cursor-pointer align-middle items-center justify-center hover1' onClick={()=>setVisibel(true)}>
-              <i className='like_icon '></i>
-              <span className='text-secondary font-medium'>Like</span>
-            </div>{' '}
-            <div className='w-full py-3 flex gap-2 cursor-pointer align-middle items-center justify-center hover1'>
-              <i className='comment_icon '></i>
-              <span className='text-secondary font-medium'>Comment</span>
-            </div>{' '}
-            <div className='w-full py-3 flex gap-2 cursor-pointer align-middle items-center justify-center hover1'>
-              <i className='share_icon '></i>
-              <span className='text-secondary font-medium'>Share</span>
-            </div>
-          </div>
-        </div>
 
-        {/* reacts */}
-        <ReactPopUp visibel={visibel} setVisibel={setVisibel} />
-      </div>
-      <div className="">
-        comment_icon
+          {/* reacts */}
+          <ReactPopUp visibel={visibel} setVisibel={setVisibel} />
+        </div>
+        <div className=''>
+          <Comments user={userLogIn} />
+        </div>
       </div>
     </div>
   )
