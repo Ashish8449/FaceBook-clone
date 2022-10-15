@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import Moment from 'react-moment'
 import { Dots, Public } from '../../svg'
 import 'react-responsive-carousel/lib/styles/carousel.min.css' // requires a loader
@@ -6,24 +6,38 @@ import { Carousel } from 'react-responsive-carousel'
 import ReactPopUp from './ReactPopUp'
 import Comments from './Comments'
 import { useSelector } from 'react-redux'
+import PostMenu from './PostMenu'
 export default function Post({ post }) {
-  const { user, images } = post
+  const { images } = post
   const [visibel, setVisibel] = useState(false)
-  const userLogIn = useSelector((state) => state.user.user)
+
+  const [showMenu, setShowMenu] = useState(false)
+  const [reacts, setReacts] = useState()
+  const [check, setCheck] = useState()
+  const [total, setTotal] = useState(0)
+  const [count, setCount] = useState(1)
+  const [checkSaved, setCheckSaved] = useState()
+  const [comments, setComments] = useState([])
+  const user = useSelector((state) => state.user.user)
+  const postRef = useRef(null)
+  console.log(post)
+  console.log(user)
   return (
-    <div className='bg-bg-primary shadow-md rounded-lg pt-3  '>
+    <div className='bg-bg-primary shadow-md relative rounded-lg pt-3  '>
       {/* header  */}
       <div className='mb-3'>
         <div className='flex px-4'>
           <div className='flex-1'>
             <div className='flex gap-3'>
               <img
-                src={user.picture}
+                src={post.user.picture}
                 className='w-10 h-10 rounded-full border-blue-color border-2'
                 alt=''
               />
               <div className=''>
-                <div className='font-medium text-md'>{user.first_name}</div>
+                <div className='font-medium text-md'>
+                  {post.user.first_name}
+                </div>
                 <div className='flex text-xs gap-1 align-middle items-center'>
                   <Moment fromNow interval={30}>
                     {post.createdAt}
@@ -33,7 +47,10 @@ export default function Post({ post }) {
               </div>
             </div>
           </div>
-          <div className='hover1 w-10 h-10 rounded-full flex justify-center items-center hover:cursor-pointer'>
+          <div
+            onClick={() => setShowMenu(!showMenu)}
+            className='hover1 w-10 h-10 rounded-full flex justify-center items-center hover:cursor-pointer'
+          >
             <Dots />
           </div>
         </div>
@@ -48,8 +65,8 @@ export default function Post({ post }) {
         </div>
       ) : (
         <div>
-          {post.text && <div>{post.text}</div>}
-          {post.images.length && (
+          {post && post.text && <div>{post.text}</div>}
+          {post?.images?.length && (
             <div className=''>
               <Carousel showThumbs={false}>
                 {post.images.map((item, i) => (
@@ -105,9 +122,23 @@ export default function Post({ post }) {
           <ReactPopUp visibel={visibel} setVisibel={setVisibel} />
         </div>
         <div className=''>
-          <Comments user={userLogIn} />
+          <Comments user={user} />
         </div>
       </div>
+      {showMenu && (
+        <PostMenu
+          userId={user.id}
+          postUserId={post.user._id}
+          imagesLength={post?.images?.length}
+          setShowMenu={setShowMenu}
+          postId={post._id}
+          token={user.token}
+          checkSaved={checkSaved}
+          setCheckSaved={setCheckSaved}
+          images={post.images}
+          postRef={postRef}
+        />
+      )}
     </div>
   )
 }

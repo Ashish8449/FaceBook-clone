@@ -22,7 +22,7 @@ export default function Home({ setVisibelCreatePost }) {
 
   return (
     <div className='mt-[56px]'>
-      <Header />
+      <Header page={'Home'} />
       <div className='flex bg-bg-forth min-h-screen'>
         <HomeLeftMenu user={user} />
 

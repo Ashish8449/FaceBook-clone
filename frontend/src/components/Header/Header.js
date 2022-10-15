@@ -5,6 +5,7 @@ import {
   ArrowDown,
   Friends,
   Gaming,
+  Home,
   HomeActive,
   Logo,
   Market,
@@ -17,7 +18,7 @@ import {
 import AllMenu from './AllMenu'
 import SearchMenu from './SearchMenu'
 import UserMenu from './UserMenu'
-export default function Header() {
+export default function Header({ page }) {
   const color = '#65676b'
   const { user } = useSelector((state) => state.user)
   const [isMenuVisibel, setMenuVisibel] = useState(false)
@@ -56,9 +57,11 @@ export default function Header() {
         <div className='flex items-center justify-evenly '>
           <Link
             to='/'
-            className='cursor-pointer sm:flex relative justify-center py-1 align-middle items-center xl:w-32 lg:w-20 sm:w-20  h-full  hover1 border-b-2 border-blue-color hidden '
+            className={`cursor-pointer sm:flex relative justify-center py-1 align-middle items-center xl:w-32 lg:w-20 sm:w-20  h-full  hover1 ${
+              page === 'Home' ? ' border-b-2 border-blue-color' : ''
+            } hidden `}
           >
-            <HomeActive />
+            {page === 'Home' ? <HomeActive /> : <Home />}
           </Link>{' '}
           <Link
             to='/'

@@ -5,6 +5,8 @@ import CreatePostPopUp from './components/CreatePost/CreatePostPopUp'
 import Activate from './Pages/Activate'
 import Home from './Pages/Home'
 import Login from './Pages/Login'
+import Profile from './Pages/Profile/Profile'
+
 import Reset from './Pages/Reset'
 import NotLogInRoutes from './routes/NotLogInRoutes'
 import ProtectedRoutes from './routes/ProtectedRoutes'
@@ -30,7 +32,9 @@ export default function App() {
             exact
             path='/'
             element={<Home setVisibelCreatePost={setVisibelCreatePost} />}
-          />
+          />{' '}
+          <Route exact path='/profile' element={<Profile />} />
+          <Route exact path='/profile/:username' element={<Profile />} />
           <Route exact path='activate/:token' element={<Activate />} />
         </Route>
         <Route element={<NotLogInRoutes />}>
