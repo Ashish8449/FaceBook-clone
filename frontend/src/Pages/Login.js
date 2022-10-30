@@ -43,9 +43,11 @@ export default function Login() {
           </div>
         </div>
       </div>
-      <SimpleModal isOpen={isCreate} onClose={setCreate}>
-        <RegisterForm />
-      </SimpleModal>
+      {isCreate && (
+        <SimpleModal isOpen={false} onClose={setCreate}>
+          <RegisterForm />
+        </SimpleModal>
+      )}
 
       {/* footer */}
       <LoginFooter />

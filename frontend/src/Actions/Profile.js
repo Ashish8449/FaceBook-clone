@@ -16,3 +16,27 @@ export const getProfile = (token, username) => async (dispatch) => {
     console.log(error)
   }
 }
+
+export const getPhotos = (token, username) => async (dispatch) => {
+  try {
+    const path = `${username}/*`
+    const max = 30
+    const sort = 'desc'
+
+    const { data } = await axios.post(
+      `${BACKEND_URL}/listImages`,
+      { path, sort, max },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+ 
+    dispatch(profileActions.setPhotos(data))
+    // console.log(data)
+  } catch (error) {
+    Navigate('/')
+    console.log(error, '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
+  }
+}

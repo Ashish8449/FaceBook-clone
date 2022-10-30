@@ -1,7 +1,7 @@
 import React from 'react'
 import { Feeling, LiveVideo, Photo } from '../../svg'
 
-export default function CreatePost({ user, setVisibelCreatePost }) {
+export default function CreatePost({ user, setVisibelCreatePost, profile }) {
   return (
     <div className='bg-bg-primary shadow-lg rounded-xl mt-3   py-5 '>
       <div className='flex gap-3 items-center md:px-8 px-3'>
@@ -10,7 +10,10 @@ export default function CreatePost({ user, setVisibelCreatePost }) {
           className='w-10 object-cover h-10 rounded-full'
           alt=''
         />
-        <div className='bg-bg-forth h-10 hover2 cursor-pointer rounded-3xl flex-1 px-3 flex items-center text-secondary' onClick={()=>setVisibelCreatePost((pre)=>!pre)} >
+        <div
+          className='bg-bg-forth h-10 hover2 cursor-pointer rounded-3xl flex-1 px-3 flex items-center text-secondary'
+          onClick={() => setVisibelCreatePost((pre) => !pre)}
+        >
           {' '}
           What's on your mind ?{' '}
         </div>
@@ -29,12 +32,21 @@ export default function CreatePost({ user, setVisibelCreatePost }) {
             Photo/Video
           </div>
         </div>{' '}
-        <div className='flex items-center gap-3 flex-wrap justify-center'>
-          <Feeling color='#f7b928' />
-          <div className='text-secondary font-medium  text-sm sm:text-base'>
-            Feeling Activity
+        {profile ? (
+          <div className='flex items-center gap-3 flex-wrap justify-center'>
+            <i className='lifeEvent_icon'></i>
+            <div className='text-secondary font-medium  text-sm sm:text-base'>
+              Life Event
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className='flex items-center gap-3 flex-wrap justify-center'>
+            <Feeling color='#f7b928' />
+            <div className='text-secondary font-medium  text-sm sm:text-base'>
+              Feeling Activity
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )

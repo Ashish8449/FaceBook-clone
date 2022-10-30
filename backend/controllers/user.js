@@ -1,4 +1,6 @@
 const User = require('../models/User')
+const Post = require('../models/Post')
+
 const {
   validateEmail,
   validateLength,
@@ -254,7 +256,10 @@ exports.getProfile = async (req, res) => {
     if (!profile) {
       res.status(404).json({ message: 'user does not exist' })
     }
-    res.status(200).json(profile)
+    const posts = await Post.find({ user: profile._id }).populate('user')
+    console.log(posts)
+
+    res.status(200).json({ profile, posts })
   } catch (error) {
     res.status(500).json({ message: error.message })
   }

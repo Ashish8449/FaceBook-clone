@@ -20,8 +20,7 @@ export default function Post({ post }) {
   const [comments, setComments] = useState([])
   const user = useSelector((state) => state.user.user)
   const postRef = useRef(null)
-  console.log(post)
-  console.log(user)
+
   return (
     <div className='bg-bg-primary shadow-md relative rounded-lg pt-3  '>
       {/* header  */}

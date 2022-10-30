@@ -33,8 +33,16 @@ export default function App() {
             path='/'
             element={<Home setVisibelCreatePost={setVisibelCreatePost} />}
           />{' '}
-          <Route exact path='/profile' element={<Profile />} />
-          <Route exact path='/profile/:username' element={<Profile />} />
+          <Route
+            exact
+            path='/profile'
+            element={<Profile setVisibelCreatePost={setVisibelCreatePost} />}
+          />
+          <Route
+            exact
+            path='/profile/:username'
+            element={<Profile setVisibelCreatePost={setVisibelCreatePost} />}
+          />
           <Route exact path='activate/:token' element={<Activate />} />
         </Route>
         <Route element={<NotLogInRoutes />}>
