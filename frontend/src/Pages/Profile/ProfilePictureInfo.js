@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-
+import ProfilePicture from '../../components/profielPicture'
 export default function ProfilePictureInfo({
   profile,
   visitor,
@@ -11,7 +11,7 @@ export default function ProfilePictureInfo({
   const pRef = useRef(null)
   return (
     <div className='profile_img_wrap'>
-      {/* {show && <ProfilePicture setShow={setShow} pRef={pRef} photos={photos} />} */}
+      {show && <ProfilePicture setShow={setShow} pRef={pRef} photos={photos} />}
       <div className='profile_w_left'>
         <div className='profile_w_img'>
           <div
@@ -25,7 +25,7 @@ export default function ProfilePictureInfo({
           {!visitor && (
             <div
               className='profile_circle hover1'
-              // onClick={() => setShow(true)}
+              onClick={() => setShow(true)}
             >
               <i className='camera_filled_icon'></i>
             </div>

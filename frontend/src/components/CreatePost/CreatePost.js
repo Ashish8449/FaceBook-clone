@@ -1,6 +1,6 @@
 import React from 'react'
 import { Feeling, LiveVideo, Photo } from '../../svg'
-
+import './style.css'
 export default function CreatePost({ user, setVisibelCreatePost, profile }) {
   return (
     <div className='bg-bg-primary shadow-lg rounded-xl mt-3   py-5 '>
