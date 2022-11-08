@@ -42,7 +42,11 @@ export default function Profile({ setVisibelCreatePost }) {
         <div className='profile_top'>
           <div className='profile_container'>
             <Cover userProfile={profile.user} visitor={visitor} />
-            <ProfilePictureInfo profile={profile?.profile} visitor={visitor} />
+            <ProfilePictureInfo
+              profile={profile?.profile}
+              visitor={visitor}
+              photos={photos.resources}
+            />
             <ProfileMenu />
           </div>
         </div>

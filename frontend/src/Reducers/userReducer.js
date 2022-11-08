@@ -15,6 +15,9 @@ export const userSlice = createSlice({
     logOut: (state, action) => {
       state.user = null
     },
+    updateProfilePicture: (state, action) => {
+      state.user.picture = action.payload
+    },
   },
 })
 

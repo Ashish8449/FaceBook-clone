@@ -36,7 +36,7 @@ export default function ProfilePictureInfo({
             {profile.first_name} {profile.last_name}
             <div className='othername'>{othername && `(${othername})`}</div>
           </div>
-          {/* <div className='profile_friend_count'>
+          <div className='profile_friend_count'>
             {profile?.friends && (
               <div className='profile_card_count'>
                 {profile?.friends.length === 0
@@ -46,8 +46,8 @@ export default function ProfilePictureInfo({
                   : `${profile?.friends.length} Friends`}
               </div>
             )}
-          </div> */}
-          {/* <div className='profile_friend_imgs'>
+          </div>
+          <div className='profile_friend_imgs'>
             {profile?.friends &&
               profile.friends.slice(0, 6).map((friend, i) => (
                 <Link to={`/profile/${friend.username}`} key={i}>
@@ -61,7 +61,7 @@ export default function ProfilePictureInfo({
                   />
                 </Link>
               ))}
-          </div> */}
+          </div>
         </div>
       </div>
       {visitor ? (

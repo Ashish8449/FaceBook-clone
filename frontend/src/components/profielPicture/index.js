@@ -5,26 +5,27 @@ import UpdateProfilePicture from './UpdateProfilePicture'
 import { useClickOutSide } from '../../Helper/clickOutSide'
 import { useSelector } from 'react-redux'
 export default function ProfilePicture({ username, setShow, pRef, photos }) {
+  console.log(photos)
   const popup = useRef(null)
-  const { user } = useSelector((state) => ({ ...state }))
-  useClickOutSide(popup, () => setShow(false))
+  const { user } = useSelector((state) => state.user)
+  // useClickOutSide(popup, () => setShow(false))
   const refInput = useRef(null)
   const [image, setImage] = useState('')
   const [error, setError] = useState('')
   const handleImage = (e) => {
     let file = e.target.files[0]
-    // if (
-    //   file.type !== "image/jpeg" &&
-    //   file.type !== "image/png" &&
-    //   file.type !== "image/webp" &&
-    //   file.type !== "image/gif"
-    // ) {
-    //   setError(`${file.name} format is not supported.`);
-    //   return;
-    // } else if (file.size > 1024 * 1024 * 5) {
-    //   setError(`${file.name} is too large max 5mb allowed.`);
-    //   return;
-    // }
+    if (
+      file.type !== 'image/jpeg' &&
+      file.type !== 'image/png' &&
+      file.type !== 'image/webp' &&
+      file.type !== 'image/gif'
+    ) {
+      setError(`${file.name} format is not supported.`)
+      return
+    } else if (file.size > 1024 * 1024 * 5) {
+      setError(`${file.name} is too large max 5mb allowed.`)
+      return
+    }
     const reader = new FileReader()
     reader.readAsDataURL(file)
     reader.onload = (event) => {
@@ -33,7 +34,7 @@ export default function ProfilePicture({ username, setShow, pRef, photos }) {
   }
 
   return (
-    <div className=''>
+    <div className='z-[200]'>
       <input
         type='file'
         ref={refInput}
@@ -42,7 +43,7 @@ export default function ProfilePicture({ username, setShow, pRef, photos }) {
         accept='image/jpeg,image/png,image/webp,image/gif'
       />
 
-      <div className='postBox pictureBox z-[10000]'>
+      <div className='postBox pictureBox z-[101]' ref={popup}>
         <div className='box_header'>
           <div className='small_circle' onClick={() => setShow(false)}>
             <i className='exit_icon'></i>
@@ -75,33 +76,33 @@ export default function ProfilePicture({ username, setShow, pRef, photos }) {
         <div className='old_pictures_wrap scrollbar'>
           <h4>your profile pictures</h4>
           <div className='old_pictures'>
-            {/* {photos
-              .filter(
+            {photos
+              ?.filter(
                 (img) => img.folder === `${user.username}/profile_pictures`
               )
               .map((photo) => (
                 <img
                   src={photo.secure_url}
                   key={photo.public_id}
-                  alt=""
+                  alt=''
                   onClick={() => setImage(photo.secure_url)}
                 />
-              ))} */}
+              ))}
           </div>
           <h4>other pictures</h4>
           <div className='old_pictures'>
-            {/* {photos
-              .filter(
+            {photos
+              ?.filter(
                 (img) => img.folder !== `${user.username}/profile_pictures`
               )
               .map((photo) => (
                 <img
                   src={photo.secure_url}
                   key={photo.public_id}
-                  alt=""
+                  alt=''
                   onClick={() => setImage(photo.secure_url)}
                 />
-              ))} */}
+              ))}
           </div>
         </div>
       </div>

@@ -72,9 +72,9 @@ exports.register = async (req, res) => {
     }).save()
 
     const verifacatioToken = genrateToken({ id: user._id.toString() }, '1d')
-    // console.log(verifacatioToken)
+
     const url = `${process.env.BASE_URL}/activate/${verifacatioToken}`
-    console.log(url)
+
     sendVerificationEmail(user.email, user.first_name, url)
     const token = genrateToken({ id: user._id.toString() }, '7d')
 
@@ -99,7 +99,7 @@ exports.register = async (req, res) => {
 exports.activateAccount = async (req, res) => {
   try {
     const validUser = req.user.id
-    console.log(req.user)
+
     const { token } = req.body
     const user = jwt.verify(token, process.env.TOKEN_SECRET_KEY)
     if (validUser !== user.id) {
@@ -110,7 +110,7 @@ exports.activateAccount = async (req, res) => {
     const check = await User.findById(user.id)
 
     // you have also check token is not expired (comming soon )
-    console.log(check)
+
     if (check.verified) {
       return res.status(400).json({ message: 'This Email is already verified' })
     } else {
@@ -137,7 +137,7 @@ exports.sendVerificationEmail = async (req, res) => {
     }
 
     const verifacatioToken = genrateToken({ id: user._id.toString() }, '1d')
-    // console.log(verifacatioToken)
+
     const url = `${process.env.BASE_URL}/acitvate/${verifacatioToken}`
 
     sendVerificationEmail(user.email, user.first_name, url)
@@ -256,11 +256,24 @@ exports.getProfile = async (req, res) => {
     if (!profile) {
       res.status(404).json({ message: 'user does not exist' })
     }
-    const posts = await Post.find({ user: profile._id }).populate('user')
-    console.log(posts)
+    const posts = await Post.find({ user: profile._id }).populate('user').sort({createdAt:-1})
 
     res.status(200).json({ profile, posts })
   } catch (error) {
     res.status(500).json({ message: error.message })
+  }
+}
+
+exports.updateProfilePicture = async (req, res) => {
+  try {
+    const { url } = req.body
+    const response = await User.findByIdAndUpdate(req.user.id, {
+      picture: url,
+    })
+
+    res.json({ url })
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+    console.log(error)
   }
 }

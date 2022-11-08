@@ -26,7 +26,7 @@ export default function Header({ page }) {
   const [isUserMenuVisibel, setUserMenuVisibel] = useState(false)
   console.log(user)
   return (
-    <header className='fixed items-center h-[56px] bg-bg-primary z-50 w-full top-0 shadow-2xl shadow-shadow-2 flex   text-primary'>
+    <header className='z-[110] fixed items-center h-[56px] bg-bg-primary  w-full top-0 shadow-2xl shadow-shadow-2 flex   text-primary'>
       <div className=''>
         <div className='flex gap-4 items-center py-1 sm:px-4 pl-2 '>
           <Link to='/' className=''>
