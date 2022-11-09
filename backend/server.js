@@ -13,7 +13,7 @@ const morgan = require('morgan')
 // only req form these routes are allowed
 let allowed = [
   'http://localhost:3000',
-  'https://face-book-clonefrontend.vercel.app',
+  'https://facebookclone231.netlify.app/',
 ]
 
 function options(req, res) {
